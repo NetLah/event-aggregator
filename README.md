@@ -2,6 +2,10 @@
 
 [NetLah.Extensions.EventAggregator](https://www.nuget.org/packages/NetLah.Extensions.EventAggregator/) is a library which contains a set of reusable classes implement Event Aggregator pattern integrated with dependency injection `Microsoft.Extensions.DependencyInjection`. These classes/interface are `IEventAggregator`, `IRootEventAggregator`, `IAsyncSubscriber`, `ISubscriber`.
 
+## Nuget package
+
+[![NuGet](https://img.shields.io/nuget/v/NetLah.Extensions.EventAggregator.svg?style=flat-square&label=nuget&colorB=00b200)](https://www.nuget.org/packages/NetLah.Extensions.EventAggregator/)
+
 ## Getting started
 
 ### Scoped and singleton
