@@ -19,8 +19,8 @@ services.AddScoped<Event4Subscriber>();             // ISubscriber<TEvent>
 
 services.SubscribeAsync<Event1, Event1Subscriber>();
 services.Subscribe<Event2, Event2Subscriber>();
-services.Subscribe<IEvent3>((ev, sp) => sp.GetRequiredService<Event3Subscriber>().Handle(ev));
-services.Subscribe<Event4>((ev, sp, ct) => sp.GetRequiredService<Event4Subscriber>().HandleAsync(ev, ct));
+services.SubscribeAsync<IEvent3>((ev, sp, ct) => sp.GetRequiredService<Event3Subscriber>().HandleAsync(ev, ct));
+services.Subscribe<Event4>((ev, sp) => sp.GetRequiredService<Event4Subscriber>().Handle(ev));
 
 // IEventAggregator eventAggregator
 // both RootEvent1Subscriber and Event1Subscriber subscribe on Event1
