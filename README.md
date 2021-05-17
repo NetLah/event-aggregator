@@ -19,8 +19,10 @@ services.AddScoped<Event4Subscriber>();             // ISubscriber<TEvent>
 
 services.SubscribeAsync<Event1, Event1Subscriber>();
 services.Subscribe<Event2, Event2Subscriber>();
-services.SubscribeAsync<IEvent3>((ev, sp, ct) => sp.GetRequiredService<Event3Subscriber>().HandleAsync(ev, ct));
-services.Subscribe<Event4>((ev, sp) => sp.GetRequiredService<Event4Subscriber>().Handle(ev));
+services.SubscribeAsync<IEvent3>(
+    (ev, sp, ct) => sp.GetRequiredService<Event3Subscriber>().HandleAsync(ev, ct));
+services.Subscribe<Event4>(
+    (ev, sp) => sp.GetRequiredService<Event4Subscriber>().Handle(ev));
 
 // IEventAggregator eventAggregator
 // both RootEvent1Subscriber and Event1Subscriber subscribe on Event1
@@ -38,7 +40,9 @@ services.AddEventAggregator();
 services.AddSingleton<RootEvent1Subscriber>();      // IAsyncSubscriber<TEvent>
 services.AddSingleton<RootEvent2Subscriber>();
 services.SubscribeAsync<Event1, RootEvent1Subscriber>(lifetime: SubscriberLifetime.Singleton);
-services.Subscribe<Event2>((ev, sp) => sp.GetRequiredService<RootEvent2Subscriber>().Handle(ev), lifetime: SubscriberLifetime.Singleton);
+services.Subscribe<Event2>(
+    (ev, sp) => sp.GetRequiredService<RootEvent2Subscriber>().Handle(ev),
+    lifetime: SubscriberLifetime.Singleton);
 
 // IRootEventAggregator rootEventAggregator
 await rootEventAggregator.PublishAsync(new Event1 { Message = message1 });
@@ -62,9 +66,15 @@ public interface ISubscriber<in TEvent> where TEvent : IEvent
 ## Delegate subscriber
 
 ```
-public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services, Func<TEvent, IServiceProvider, CancellationToken, Task> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped);
+public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services,
+    Func<TEvent, IServiceProvider, CancellationToken, Task> handler,
+    SubscriberLifetime lifetime = SubscriberLifetime.Scoped);
 
-public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services, Func<TEvent, IServiceProvider, Task> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
+public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services,
+    Func<TEvent, IServiceProvider, Task> handler,
+    SubscriberLifetime lifetime = SubscriberLifetime.Scoped);
 
-public static IServiceCollection Subscribe<TEvent>(this IServiceCollection services, Action<TEvent, IServiceProvider> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
+public static IServiceCollection Subscribe<TEvent>(this IServiceCollection services,
+    Action<TEvent, IServiceProvider> handler,
+    SubscriberLifetime lifetime = SubscriberLifetime.Scoped);
 ```
