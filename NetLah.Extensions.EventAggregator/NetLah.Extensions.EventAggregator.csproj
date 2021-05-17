@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <PackageId>NetLah.Extensions.EventAggregator</PackageId>
+    <PackageTags>NetLah;.NetCore;ASP.NETCore;EventAggregator;Event;Aggregator;Sourcing</PackageTags>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Description>EventAggregator integrated with DependencyInjection</Description>
     <SignAssembly>true</SignAssembly>
