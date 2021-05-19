@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NetLah.Extensions.EventAggregator;
 using SampleWebApi.Models;
+using SampleWebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,17 @@ namespace SampleWebApi.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IEventAggregator _ea;
         private readonly IRootEventAggregator _rootEa;
+        private readonly TransientService1 _transientService1;
+        private readonly SingletonService1 _singletonService1;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, IEventAggregator ea, IRootEventAggregator rootEa)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IEventAggregator ea, IRootEventAggregator rootEa,
+            TransientService1 transientService1, SingletonService1 singletonService1)
         {
             _logger = logger;
             _ea = ea;
             _rootEa = rootEa;
+            _transientService1 = transientService1;
+            _singletonService1 = singletonService1;
         }
 
         private static WeatherForecast[] Fetch(int count)
@@ -55,12 +61,36 @@ namespace SampleWebApi.Controllers
             return result;
         }
 
-        [HttpHead]
+        [HttpGet("Root")]
         public async Task<IEnumerable<WeatherForecast>> Head()
         {
             var result = Fetch(1);
 
             await PublishAllToRoot("[PublishRoot]", result.First(), _rootEa);
+
+            return result;
+        }
+
+        [HttpGet("Transient")]
+        public async Task<IEnumerable<WeatherForecast>> TransientGet()
+        {
+            var result = Fetch(1);
+            var data = result.First();
+            var message = $"{data.Date} {data.TemperatureC} {data.TemperatureF} {data.Summary}";
+
+            await _transientService1.SaveMessageAsync(message);
+
+            return result;
+        }
+
+        [HttpGet("Singleton")]
+        public async Task<IEnumerable<WeatherForecast>> GetSingleton()
+        {
+            var result = Fetch(1);
+            var data = result.First();
+            var message = $"{data.Date} {data.TemperatureC} {data.TemperatureF} {data.Summary}";
+
+            await _singletonService1.SendMessageAsync(message);
 
             return result;
         }

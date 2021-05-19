@@ -50,6 +50,10 @@ namespace SampleWebApi
             services.AddSingleton<RootEvent3Subscriber>();
             services.SubscribeAsync<Event2, RootEvent2Subscriber>(lifetime: SubscriberLifetime.Singleton);
             services.Subscribe<IEvent3>((ev, sp) => sp.GetRequiredService<RootEvent3Subscriber>().Handle3(ev), lifetime: SubscriberLifetime.Singleton);
+
+            services.AddTransient<TransientService1>();
+            services.AddTransient<TransientService2>();
+            services.AddSingleton<SingletonService1>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
