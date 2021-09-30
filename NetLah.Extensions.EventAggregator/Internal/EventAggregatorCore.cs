@@ -29,10 +29,17 @@ namespace NetLah.Extensions.EventAggregator.Internal
         {
             var type = @event?.GetType() ?? typeof(TEvent);
 
+#if !NETSTANDARD2_0
             var subscriptions = OptionsValue.Handlers.GetOrAdd<Func<Subscription[]>>(
                 type,
                 (type, factory) => new Lazy<Subscription[]>(factory),
                 () => SubscriptionsFactory(type));
+#else
+            var subscriptions = OptionsValue.Handlers.GetOrAdd(
+                type,
+                type => new Lazy<Subscription[]>(
+                    () => SubscriptionsFactory(type)));
+#endif
 
             foreach (var subscription in subscriptions.Value)
             {

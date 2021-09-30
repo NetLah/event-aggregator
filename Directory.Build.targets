@@ -1,20 +1,25 @@
 <Project>
 
   <PropertyGroup>
-    <FrameworkVersion>5.0.8</FrameworkVersion>
-    <FrameworkBaselineVersion>5.0.0</FrameworkBaselineVersion>
+    <FrameworkVersion>5.0.10</FrameworkVersion>
+    <FrameworkBaselineVersion Condition="'$(TargetFramework)' != 'net5.0' And '$(TargetFramework)' != 'net6.0'">3.1.8</FrameworkBaselineVersion>
+    <FrameworkBaselineVersion Condition="'$(TargetFramework)' == 'net5.0'">5.0.0</FrameworkBaselineVersion>
+    <FrameworkBaselineVersion Condition="'$(TargetFramework)' == 'net6.0'">6.*-*</FrameworkBaselineVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <!--build related-->
-    <PackageReference Include="MinVer" Version="2.*" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Condition="'$(TargetFramework)' != 'net6.0'" Version="2.*" PrivateAssets="All" />
+    <PackageReference Include="MinVer" Condition="'$(TargetFramework)' == 'net6.0'" Version="3.*-*" PrivateAssets="All" />
+    <PackageReference Update="Microsoft.SourceLink.Gitea" Version="1.*-*" PrivateAssets="All" />
     <PackageReference Update="Microsoft.SourceLink.GitHub" Version="1.0.*" PrivateAssets="All" />
 
     <!--the netlah platform-->
-    <PackageReference Update="NetLah.Abstractions" Version="[0.1.0,1.0)" />
-    <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.1.0,1.0)" />
-    <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.1.0,1.0)" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.1.1,1.0)" />
+    <PackageReference Include="NetLah.Abstractions" />
+    <PackageReference Update="NetLah.Abstractions" Version="[0.2.0-rc1.3,1.0)" PrivateAssets="build" />
+    <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.*-*,1.0)" />
+    <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.*-*,1.0)" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.*-*,1.0)" />
     <PackageReference Update="Testing.Dynamic.Json" Version="1.*-*" />
 
     <!--tests-->
@@ -47,9 +52,11 @@
     <PackageReference Update="AutoMapper" Version="10.*" />
     <PackageReference Update="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.*" />
     <PackageReference Update="BouncyCastle.NetCore" Version="1.8.*" />
+    <PackageReference Update="ClosedXML" Version="0.*" />
     <PackageReference Update="CsvHelper" Version="26.0.*" />
     <PackageReference Update="Dapper" Version="2.0.*" />
     <PackageReference Update="Docnet.Core" Version="2.2.*" />
+    <PackageReference Update="DocumentFormat.OpenXml" Version="2.*" />
     <PackageReference Update="Humanizer.Core" Version="2.*" />
     <PackageReference Update="LazyCache.AspNetCore" Version="2.1.*" />
     <PackageReference Update="LiteDB" Version="5.*" />
@@ -58,15 +65,17 @@
     <PackageReference Update="MiniProfiler.Shared" Version="4.2.*" />
     <PackageReference Update="Newtonsoft.Json" Version="12.0.*" />
     <PackageReference Update="Newtonsoft.Json.Schema" Version="3.0.*" />
-    <PackageReference Update="RabbitMQ.Client" Version="6.2.1" />
+    <PackageReference Update="RabbitMQ.Client" Version="6.2.2" />
+    <PackageReference Update="SkiaSharp" Version="2.80.*" />
+    <PackageReference Update="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="2.80.*" />
     <PackageReference Update="StackExchange.Redis" Version="2.*" />
     <PackageReference Update="TimeZoneConverter" Version="3.*" />
 
     <!--microsoft other-->
     <PackageReference Update="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Update="Microsoft.Extensions.CommandLineUtils" Version="1.*" />
+    <PackageReference Update="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.11.*" />
     <PackageReference Update="Microsoft.VisualStudio.Threading" Version="16.*" />
-    <PackageReference Update="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.*" />
     <PackageReference Update="System.Memory" Version="4.5.4" />
     <PackageReference Update="System.Runtime.Loader" Version="4.3.0" />
     <PackageReference Update="System.Runtime.Extensions" Version="4.3.1" />
@@ -99,7 +108,8 @@
     <PackageReference Update="System.DirectoryServices.AccountManagement" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="System.DirectoryServices.Protocols" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="System.Drawing.Common" Version="$(FrameworkBaselineVersion)" />
-    <PackageReference Update="System.Text.Json" Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'netstandard2.1'" Version="$(FrameworkBaselineVersion)" />
+    <PackageReference Update="System.Text.Json" Condition="'$(TargetFramework)' != 'net5.0' And '$(TargetFramework)' != 'net6.0'" Version="5.0.0" />
+    <PackageReference Update="System.Text.Json" Condition="'$(TargetFramework)' == 'net6.0'" Version="$(FrameworkBaselineVersion)" />
 
     <!--microsoft asp.net core-->
     <PackageReference Update="Microsoft.AspNetCore.Authentication.Google" Version="$(FrameworkBaselineVersion)" />
@@ -115,7 +125,7 @@
     <PackageReference Update="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="$(FrameworkBaselineVersion)" />
 
     <!--microsoft entity framework and data-->
-    <PackageReference Update="Microsoft.Data.SqlClient" Version="2.*" />
+    <PackageReference Update="Microsoft.Data.SqlClient" Version="3.*" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Cosmos" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="$(FrameworkBaselineVersion)" PrivateAssets="All" />
@@ -123,11 +133,12 @@
     <PackageReference Update="Microsoft.EntityFrameworkCore.Relational" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.EntityFrameworkCore.Tools" Version="$(FrameworkBaselineVersion)" PrivateAssets="All" />
-    <PackageReference Update="Npgsql" Version="5.*" />
-    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.*" />
+    <PackageReference Update="Npgsql" Version="$(FrameworkBaselineVersion)" />
+    <PackageReference Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="EFCore.NamingConventions" Version="5.*" />
 
     <!--azure-->
+    <PackageReference Update="Azure.Containers.ContainerRegistry" Version="1.*-*" />
     <PackageReference Update="Azure.Core" Version="1.*" />
     <PackageReference Update="Azure.Core.Amqp" Version="1.0.*" />
     <PackageReference Update="Azure.Extensions.AspNetCore.DataProtection.Blobs" Version="1.*" />
@@ -150,8 +161,7 @@
     <PackageReference Update="Microsoft.Identity.Web.MicrosoftGraph" Version="1.*" />
     <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="6.10.*" />
     <PackageReference Update="Microsoft.IdentityModel.Tokens" Version="6.*" />
-    <PackageReference Update="Microsoft.Graph" Version="3.*" />
-    <PackageReference Update="Microsoft.Graph.Auth" Version="1.*-*" />
+    <PackageReference Update="Microsoft.Graph" Version="4.*" />
     <PackageReference Update="System.IdentityModel.Tokens.Jwt" Version="6.*" />
 
     <!--grpc-->
@@ -178,10 +188,20 @@
     <PackageReference Update="System.ServiceModel.Primitives" Version="4.8.*" />
     <PackageReference Update="System.ServiceModel.Security" Version="4.8.*" />
 
+    <!--reactive-->
+    <PackageReference Update="Microsoft.Reactive.Testing" Version="5.*" />
+    <PackageReference Update="System.Interactive" Version="5.*" />
+    <PackageReference Update="System.Interactive.Async" Version="5.*" />
+    <PackageReference Update="System.Interactive.Async.Providers" Version="5.*" />
+    <PackageReference Update="System.Reactive" Version="5.*" />
+    <PackageReference Update="System.Linq.Async" Version="5.*" />
+
   </ItemGroup>
 
   <Target Name="SetAssemblyVersion" AfterTargets="MinVer">
     <PropertyGroup>
+      <BUILD_COUNTER Condition="'$(BUILD_COUNTER)' == ''">0</BUILD_COUNTER>
+      <FileVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).$(BUILD_COUNTER)</FileVersion>
       <AssemblyVersion>$(MinVerMajor).$(MinVerMinor).$(MinVerPatch).0</AssemblyVersion>
     </PropertyGroup>
   </Target>

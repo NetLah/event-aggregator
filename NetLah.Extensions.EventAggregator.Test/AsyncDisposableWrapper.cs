@@ -15,7 +15,11 @@ namespace NetLah.Extensions.EventAggregator.Test
                 return asyncDisposable.DisposeAsync();
 
             Service.Dispose();
+#if NETCOREAPP3_1
+            return new ValueTask(Task.CompletedTask);
+#else
             return ValueTask.CompletedTask;
+#endif
         }
     }
 }

@@ -14,7 +14,7 @@
 
 ### Scoped and singleton
 
-```
+```C#
 services.AddEventAggregator();
 
 services.AddSingleton<RootEvent1Subscriber>();
@@ -42,7 +42,7 @@ await eventAggregator.PublishAsync(new Event4());
 
 ### Singleton only
 
-```
+```C#
 services.AddEventAggregator();
 
 services.AddSingleton<RootEvent1Subscriber>();      // IAsyncSubscriber<TEvent>
@@ -59,7 +59,7 @@ await rootEventAggregator.PublishAsync(new Event2 { Payload = payload2 });
 
 ## Interface subscriber
 
-```
+```C#
 public interface IAsyncSubscriber<in TEvent> where TEvent : IEvent
 {
     Task HandleAsync(TEvent @event, CancellationToken cancellationToken = default);
@@ -73,7 +73,7 @@ public interface ISubscriber<in TEvent> where TEvent : IEvent
 
 ## Delegate subscriber
 
-```
+```C#
 public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services,
     Func<TEvent, IServiceProvider, CancellationToken, Task> handler,
     SubscriberLifetime lifetime = SubscriberLifetime.Scoped);
