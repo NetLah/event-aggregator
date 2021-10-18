@@ -3,7 +3,7 @@
   <PropertyGroup>
     <PackageId>NetLah.Extensions.EventAggregator</PackageId>
     <PackageTags>event-aggregator;event;aggregator;sourcing;dependency-injection;dependencyinjection;dotnet;netcore;aspnetcore</PackageTags>
-    <TargetFrameworks>net6.0;net5.0;netstandard2.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1;netstandard2.0</TargetFrameworks>
     <Description>EventAggregator integrated with DependencyInjection for .NETCore/ASP.NETCore</Description>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>../NetLah.snk</AssemblyOriginatorKeyFile>
