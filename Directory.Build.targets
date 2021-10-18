@@ -16,7 +16,7 @@
 
     <!--the netlah platform-->
     <PackageReference Include="NetLah.Abstractions" />
-    <PackageReference Update="NetLah.Abstractions" Version="[0.2.0-rc1.3,1.0)" PrivateAssets="build" />
+    <PackageReference Update="NetLah.Abstractions" Version="[0.2.0-rc2,1.0)" />
     <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.*-*,1.0)" />
     <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.*-*,1.0)" />
     <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.*-*,1.0)" />
