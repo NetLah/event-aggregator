@@ -1,6 +1,5 @@
-﻿namespace NetLah.Extensions.EventAggregator
+﻿namespace NetLah.Extensions.EventAggregator;
+
+public interface IEventAggregator : IPublisher
 {
-    public interface IEventAggregator : IPublisher
-    {
-    }
 }

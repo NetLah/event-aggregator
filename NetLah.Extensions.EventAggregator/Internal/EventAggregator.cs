@@ -1,13 +1,11 @@
-﻿using System;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 
-namespace NetLah.Extensions.EventAggregator.Internal
+namespace NetLah.Extensions.EventAggregator.Internal;
+
+internal class EventAggregator : EventAggregatorCore
 {
-    internal class EventAggregator : EventAggregatorCore
+    public EventAggregator(IServiceProvider serviceProvider, IOptionsMonitor<EventAggregatorOptions> optionsAccessor) :
+        base(serviceProvider, () => optionsAccessor.Get(Options.DefaultName))
     {
-        public EventAggregator(IServiceProvider serviceProvider, IOptionsMonitor<EventAggregatorOptions> optionsAccessor) :
-            base(serviceProvider, () => optionsAccessor.Get(Options.DefaultName))
-        {
-        }
     }
 }

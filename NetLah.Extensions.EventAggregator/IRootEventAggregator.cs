@@ -1,4 +1,3 @@
-﻿namespace NetLah.Extensions.EventAggregator
-{
-    public interface IRootEventAggregator : IEventAggregator { }
-}
+﻿namespace NetLah.Extensions.EventAggregator;
+
+public interface IRootEventAggregator : IEventAggregator { }

@@ -1,4 +1,5 @@
-﻿namespace NetLah.Extensions.EventAggregator
+﻿namespace NetLah.Extensions.EventAggregator;
+
+public interface IEvent
 {
-    public interface IEvent { }
 }

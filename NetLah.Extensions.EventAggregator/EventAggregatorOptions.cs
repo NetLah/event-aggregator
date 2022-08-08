@@ -1,14 +1,11 @@
-﻿using System;
+﻿using NetLah.Extensions.EventAggregator.Internal;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using NetLah.Extensions.EventAggregator.Internal;
 
-namespace NetLah.Extensions.EventAggregator
+namespace NetLah.Extensions.EventAggregator;
+
+public class EventAggregatorOptions
 {
-    public class EventAggregatorOptions
-    {
-        internal List<Subscription> Subscriptions { get; } = new();
+    internal List<Subscription> Subscriptions { get; } = new();
 
-        internal ConcurrentDictionary<Type, Lazy<Subscription[]>> Handlers { get; } = new();
-    }
+    internal ConcurrentDictionary<Type, Lazy<Subscription[]>> Handlers { get; } = new();
 }

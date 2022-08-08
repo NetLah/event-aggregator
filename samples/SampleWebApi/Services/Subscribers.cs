@@ -1,101 +1,97 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using NetLah.Extensions.EventAggregator;
+﻿using NetLah.Extensions.EventAggregator;
 using SampleWebApi.Models;
 
-namespace SampleWebApi.Services
+namespace SampleWebApi.Services;
+
+public class Event1Subscriber : IAsyncSubscriber<Event1>
 {
-    public class Event1Subscriber : IAsyncSubscriber<Event1>
+    private readonly ILogger _logger;
+
+    public Event1Subscriber(ILogger<Event1Subscriber> logger)
     {
-        private readonly ILogger _logger;
-
-        public Event1Subscriber(ILogger<Event1Subscriber> logger)
-        {
-            _logger = logger;
-        }
-
-        public Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default)
-        {
-            _logger.LogInformation("Handled[Event1Subscriber] {event1}", @event.Message);
-            return Task.CompletedTask;
-        }
+        _logger = logger;
     }
 
-    public class RootEvent1Subscriber : IAsyncSubscriber<Event1>
+    public Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default)
     {
-        private readonly ILogger _logger;
+        _logger.LogInformation("Handled[Event1Subscriber] {event1}", @event.Message);
+        return Task.CompletedTask;
+    }
+}
 
-        public RootEvent1Subscriber(ILogger<RootEvent1Subscriber> logger)
-        {
-            _logger = logger;
-        }
+public class RootEvent1Subscriber : IAsyncSubscriber<Event1>
+{
+    private readonly ILogger _logger;
 
-        public Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default)
-        {
-            _logger.LogInformation("Handled[RootEvent1Subscriber] {event1}", @event.Message);
-            return Task.CompletedTask;
-        }
+    public RootEvent1Subscriber(ILogger<RootEvent1Subscriber> logger)
+    {
+        _logger = logger;
     }
 
-    public class Event2Subscriber : ISubscriber<BaseEvent2>
+    public Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default)
     {
-        private readonly ILogger _logger;
+        _logger.LogInformation("Handled[RootEvent1Subscriber] {event1}", @event.Message);
+        return Task.CompletedTask;
+    }
+}
 
-        public Event2Subscriber(ILogger<Event2Subscriber> logger)
-        {
-            _logger = logger;
-        }
+public class Event2Subscriber : ISubscriber<BaseEvent2>
+{
+    private readonly ILogger _logger;
 
-        public void Handle(BaseEvent2 @event)
-        {
-            _logger.LogInformation("Handled[Event2Subscriber] {event2}", @event.Message2);
-        }
+    public Event2Subscriber(ILogger<Event2Subscriber> logger)
+    {
+        _logger = logger;
     }
 
-    public class RootEvent2Subscriber : IAsyncSubscriber<Event2>
+    public void Handle(BaseEvent2 @event)
     {
-        private readonly ILogger _logger;
+        _logger.LogInformation("Handled[Event2Subscriber] {event2}", @event.Message2);
+    }
+}
 
-        public RootEvent2Subscriber(ILogger<RootEvent2Subscriber> logger)
-        {
-            _logger = logger;
-        }
+public class RootEvent2Subscriber : IAsyncSubscriber<Event2>
+{
+    private readonly ILogger _logger;
 
-        public Task HandleAsync(Event2 @event, CancellationToken cancellationToken = default)
-        {
-            _logger.LogInformation("Handled[RootEvent2Subscriber] {event2}", @event.Message2);
-            return Task.CompletedTask;
-        }
+    public RootEvent2Subscriber(ILogger<RootEvent2Subscriber> logger)
+    {
+        _logger = logger;
     }
 
-    public class Event3Subscriber : ISubscriber<IEvent3>
+    public Task HandleAsync(Event2 @event, CancellationToken cancellationToken = default)
     {
-        private readonly ILogger _logger;
+        _logger.LogInformation("Handled[RootEvent2Subscriber] {event2}", @event.Message2);
+        return Task.CompletedTask;
+    }
+}
 
-        public Event3Subscriber(ILogger<Event3Subscriber> logger)
-        {
-            _logger = logger;
-        }
+public class Event3Subscriber : ISubscriber<IEvent3>
+{
+    private readonly ILogger _logger;
 
-        public void Handle(IEvent3 @event)
-        {
-            _logger.LogInformation("Handled[Event3Subscriber]/{type} {event3}", @event.GetType().Name, @event.Message3);
-        }
+    public Event3Subscriber(ILogger<Event3Subscriber> logger)
+    {
+        _logger = logger;
     }
 
-    public class RootEvent3Subscriber
+    public void Handle(IEvent3 @event)
     {
-        private readonly ILogger _logger;
+        _logger.LogInformation("Handled[Event3Subscriber]/{type} {event3}", @event.GetType().Name, @event.Message3);
+    }
+}
 
-        public RootEvent3Subscriber(ILogger<RootEvent3Subscriber> logger)
-        {
-            _logger = logger;
-        }
+public class RootEvent3Subscriber
+{
+    private readonly ILogger _logger;
 
-        public void Handle3(IEvent3 @event)
-        {
-            _logger.LogInformation("Handled[RootEvent3Subscriber]/{type} {event3}", @event.GetType().Name, @event.Message3);
-        }
+    public RootEvent3Subscriber(ILogger<RootEvent3Subscriber> logger)
+    {
+        _logger = logger;
+    }
+
+    public void Handle3(IEvent3 @event)
+    {
+        _logger.LogInformation("Handled[RootEvent3Subscriber]/{type} {event3}", @event.GetType().Name, @event.Message3);
     }
 }

@@ -24,7 +24,6 @@
     <PackageReference Include="Serilog.Sinks.Debug" />
     <PackageReference Include="Serilog.Sinks.File" />
     <PackageReference Include="Serilog.Sinks.Seq" />
-    <!--<PackageReference Include="System.Text.Json" Condition="'$(TargetFramework)' != 'net5.0'" />-->
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
 
