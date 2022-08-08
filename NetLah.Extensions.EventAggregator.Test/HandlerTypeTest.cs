@@ -213,4 +213,51 @@ public class HandlerTypeTest
         spMock.Verify(sp => sp.GetService(typeof(BaseAsyncSubscriber)), Times.Exactly(3));
         spMock.Verify(sp => sp.GetService(typeof(BaseSubscriber)), Times.Exactly(3));
     }
+
+    [Fact]
+    public async Task AllForm_Null_Success()
+    {
+        var options = new EventAggregatorOptions();
+        var spMock = new Mock<IServiceProvider>();
+        var sp = spMock.Object;
+
+        var handler1Mock = new Mock<Func<Event1?, IServiceProvider, CancellationToken, Task>>();
+        options.AddHandler1(handler1Mock.Object);
+
+        var handler2Mock = new Mock<Action<Event1?, IServiceProvider>>();
+        options.AddHandler2(handler2Mock.Object);
+
+        var handler3Mock = new Mock<Func<Event1?, IServiceProvider, Task>>();
+        options.AddHandler3(handler3Mock.Object);
+
+        var handler4Mock = new Mock<Func<Event1?, Task>>();
+        options.AddHandler4(handler4Mock.Object);
+
+        var handler5Mock = new Mock<Action<Event1?>>();
+        options.AddHandler5(handler5Mock.Object);
+
+        var handler6Mock = new Mock<BaseAsyncSubscriber>();
+        spMock.Setup(sp => sp.GetService(typeof(BaseAsyncSubscriber))).Returns(handler6Mock.Object).Verifiable();
+        options.AddHandler6<Event1, BaseAsyncSubscriber>();
+
+        var handler7Mock = new Mock<BaseSubscriber>();
+        spMock.Setup(sp => sp.GetService(typeof(BaseSubscriber))).Returns(handler7Mock.Object).Verifiable();
+        options.AddHandler7<Event1, BaseSubscriber>();
+
+        var service = new EACore(sp, options);
+
+        await service.PublishAsync(Helper.Null<Event1>());
+
+        handler1Mock.Verify(d => d(It.IsAny<Event1>(), sp, It.IsAny<CancellationToken>()), Times.Once);
+        handler2Mock.Verify(d => d(It.IsAny<Event1>(), sp), Times.Once);
+        handler3Mock.Verify(d => d(It.IsAny<Event1>(), sp), Times.Once);
+        handler4Mock.Verify(d => d(It.IsAny<Event1>()), Times.Once);
+        handler5Mock.Verify(d => d(It.IsAny<Event1>()), Times.Once);
+        handler6Mock.Verify(s => s.HandleAsync(It.IsAny<Event1>(), It.IsAny<CancellationToken>()), Times.Once);
+        handler7Mock.Verify(s => s.Handle(It.IsAny<Event1>()), Times.Once);
+
+        spMock.VerifyAll();
+        spMock.Verify(sp => sp.GetService(typeof(BaseAsyncSubscriber)), Times.Once);
+        spMock.Verify(sp => sp.GetService(typeof(BaseSubscriber)), Times.Once);
+    }
 }
