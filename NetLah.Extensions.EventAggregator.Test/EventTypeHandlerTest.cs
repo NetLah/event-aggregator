@@ -6,18 +6,6 @@ namespace NetLah.Extensions.EventAggregator.Test;
 public class EventTypeHandlerTest
 {
     [Fact]
-    public async Task EventAbstraction_NullEvent()
-    {
-        var service = new EACore(null, new EventAggregatorOptions());
-
-#pragma warning disable CS8631 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match constraint type.
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-        _ = await Assert.ThrowsAnyAsync<Exception>(() => service.PublishAsync((IEvent)null));
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-#pragma warning restore CS8631 // The type cannot be used as type parameter in the generic type or method. Nullability of type argument doesn't match constraint type.
-    }
-
-    [Fact]
     public async Task EventAbstraction_ActualType_Success()
     {
         var handlerMock = new Mock<Action<Event1>>();
