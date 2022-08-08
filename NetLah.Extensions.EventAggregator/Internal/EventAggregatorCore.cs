@@ -4,7 +4,7 @@ internal abstract class EventAggregatorCore : IEventAggregator
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly Func<EventAggregatorOptions> _optionsFactory;
-    private EventAggregatorOptions _options;
+    private EventAggregatorOptions? _options;
 
     protected EventAggregatorCore(IServiceProvider serviceProvider, Func<EventAggregatorOptions> optionsFactory)
     {
@@ -20,9 +20,9 @@ internal abstract class EventAggregatorCore : IEventAggregator
             .Where(s => s.Type.IsAssignableFrom(type))
             .ToArray();
 
-    public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) where TEvent : IEvent
+    public async Task PublishAsync<TEvent>(TEvent? @event, CancellationToken cancellationToken = default) where TEvent : IEvent
     {
-        var type = @event?.GetType() ?? typeof(TEvent);
+        Type type = @event?.GetType() ?? typeof(TEvent);
 
 #if !NETSTANDARD2_0
         var subscriptions = OptionsValue.Handlers.GetOrAdd<Func<Subscription[]>>(

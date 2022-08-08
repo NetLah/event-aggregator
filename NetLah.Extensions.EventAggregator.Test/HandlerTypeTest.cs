@@ -8,49 +8,49 @@ public class HandlerTypeTest
     [Fact]
     public async Task DelegateForm1_Success()
     {
-        var handlerMock = new Mock<Func<Event1, IServiceProvider, CancellationToken, Task>>();
+        var handlerMock = new Mock<Func<Event1?, IServiceProvider, CancellationToken, Task>>();
         var options = new EventAggregatorOptions();
         options.AddHandler1(handlerMock.Object);
-        var service = new EACore(null, options);
+        var service = new EACore(Helper.NullServiceProvider(), options);
 
         await service.PublishAsync(new Event1());
 
-        handlerMock.Verify(d => d(It.IsAny<Event1>(), null, It.IsAny<CancellationToken>()), Times.Once);
+        handlerMock.Verify(d => d(It.IsAny<Event1>(), Helper.NullServiceProvider(), It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
     public async Task DelegateForm2_Success()
     {
-        var handlerMock = new Mock<Action<Event1, IServiceProvider>>();
+        var handlerMock = new Mock<Action<Event1?, IServiceProvider>>();
         var options = new EventAggregatorOptions();
         options.AddHandler2(handlerMock.Object);
-        var service = new EACore(null, options);
+        var service = new EACore(Helper.NullServiceProvider(), options);
 
         await service.PublishAsync(new Event1());
 
-        handlerMock.Verify(d => d(It.IsAny<Event1>(), null), Times.Once);
+        handlerMock.Verify(d => d(It.IsAny<Event1>(), Helper.NullServiceProvider()), Times.Once);
     }
 
     [Fact]
     public async Task DelegateForm3_Success()
     {
-        var handlerMock = new Mock<Func<Event1, IServiceProvider, Task>>();
+        var handlerMock = new Mock<Func<Event1?, IServiceProvider, Task>>();
         var options = new EventAggregatorOptions();
         options.AddHandler3(handlerMock.Object);
-        var service = new EACore(null, options);
+        var service = new EACore(Helper.NullServiceProvider(), options);
 
         await service.PublishAsync(new Event1());
 
-        handlerMock.Verify(d => d(It.IsAny<Event1>(), null), Times.Once);
+        handlerMock.Verify(d => d(It.IsAny<Event1>(), Helper.NullServiceProvider()), Times.Once);
     }
 
     [Fact]
     public async Task DelegateForm4_Success()
     {
-        var handlerMock = new Mock<Func<Event1, Task>>();
+        var handlerMock = new Mock<Func<Event1?, Task>>();
         var options = new EventAggregatorOptions();
         options.AddHandler4(handlerMock.Object);
-        var service = new EACore(null, options);
+        var service = new EACore(Helper.NullServiceProvider(), options);
 
         await service.PublishAsync(new Event1());
 
@@ -60,10 +60,10 @@ public class HandlerTypeTest
     [Fact]
     public async Task DelegateForm5_Success()
     {
-        var handlerMock = new Mock<Action<Event1>>();
+        var handlerMock = new Mock<Action<Event1?>>();
         var options = new EventAggregatorOptions();
         options.AddHandler5(handlerMock.Object);
-        var service = new EACore(null, options);
+        var service = new EACore(Helper.NullServiceProvider(), options);
 
         await service.PublishAsync(new Event1());
 
@@ -123,15 +123,15 @@ public class HandlerTypeTest
     [Fact]
     public async Task Delegate_Twice_Success()
     {
-        var handlerMock = new Mock<Func<Event1, IServiceProvider, CancellationToken, Task>>();
+        var handlerMock = new Mock<Func<Event1?, IServiceProvider, CancellationToken, Task>>();
         var options = new EventAggregatorOptions();
         options.AddHandler1(handlerMock.Object);
         options.AddHandler1(handlerMock.Object);
-        var service = new EACore(null, options);
+        var service = new EACore(Helper.NullServiceProvider(), options);
 
         await service.PublishAsync(new Event1());
 
-        handlerMock.Verify(d => d(It.IsAny<Event1>(), null, It.IsAny<CancellationToken>()), Times.Exactly(2));
+        handlerMock.Verify(d => d(It.IsAny<Event1>(), Helper.NullServiceProvider(), It.IsAny<CancellationToken>()), Times.Exactly(2));
     }
 
     [Fact]
@@ -161,19 +161,19 @@ public class HandlerTypeTest
         var spMock = new Mock<IServiceProvider>();
         var sp = spMock.Object;
 
-        var handler1Mock = new Mock<Func<Event1, IServiceProvider, CancellationToken, Task>>();
+        var handler1Mock = new Mock<Func<Event1?, IServiceProvider, CancellationToken, Task>>();
         options.AddHandler1(handler1Mock.Object);
 
-        var handler2Mock = new Mock<Action<Event1, IServiceProvider>>();
+        var handler2Mock = new Mock<Action<Event1?, IServiceProvider>>();
         options.AddHandler2(handler2Mock.Object);
 
-        var handler3Mock = new Mock<Func<Event1, IServiceProvider, Task>>();
+        var handler3Mock = new Mock<Func<Event1?, IServiceProvider, Task>>();
         options.AddHandler3(handler3Mock.Object);
 
-        var handler4Mock = new Mock<Func<Event1, Task>>();
+        var handler4Mock = new Mock<Func<Event1?, Task>>();
         options.AddHandler4(handler4Mock.Object);
 
-        var handler5Mock = new Mock<Action<Event1>>();
+        var handler5Mock = new Mock<Action<Event1?>>();
         options.AddHandler5(handler5Mock.Object);
 
         var handler6Mock = new Mock<BaseAsyncSubscriber>();

@@ -4,36 +4,36 @@ namespace NetLah.Extensions.EventAggregator.Internal;
 
 internal class SubscriptionFrom1Async<TEvent> : SubscriptionFrom1Async where TEvent : IEvent
 {
-    public SubscriptionFrom1Async(Func<TEvent, IServiceProvider, CancellationToken, Task> handler)
-        : base(typeof(TEvent), (o, sp, c) => handler((TEvent)o, sp, c))
+    public SubscriptionFrom1Async(Func<TEvent?, IServiceProvider, CancellationToken, Task> handler)
+        : base(typeof(TEvent), (o, sp, c) => handler((TEvent?)o, sp, c))
     { }
 }
 
 internal class SubscriptionFrom2<TEvent> : SubscriptionFrom2 where TEvent : IEvent
 {
-    public SubscriptionFrom2(Action<TEvent, IServiceProvider> handler)
-        : base(typeof(TEvent), (o, sp) => handler((TEvent)o, sp))
+    public SubscriptionFrom2(Action<TEvent?, IServiceProvider> handler)
+        : base(typeof(TEvent), (o, sp) => handler((TEvent?)o, sp))
     { }
 }
 
 internal sealed class SubscriptionFrom3Async<TEvent> : SubscriptionFrom3Async where TEvent : IEvent
 {
-    public SubscriptionFrom3Async(Func<TEvent, IServiceProvider, Task> handler)
-        : base(typeof(TEvent), (o, sp) => handler((TEvent)o, sp))
+    public SubscriptionFrom3Async(Func<TEvent?, IServiceProvider, Task> handler)
+        : base(typeof(TEvent), (o, sp) => handler((TEvent?)o, sp))
     { }
 }
 
 internal sealed class SubscriptionFrom4Async<TEvent> : SubscriptionFrom4Async where TEvent : IEvent
 {
-    public SubscriptionFrom4Async(Func<TEvent, Task> handler)
-        : base(typeof(TEvent), (o) => handler((TEvent)o))
+    public SubscriptionFrom4Async(Func<TEvent?, Task> handler)
+        : base(typeof(TEvent), (o) => handler((TEvent?)o))
     { }
 }
 
 internal sealed class SubscriptionFrom5<TEvent> : SubscriptionFrom5 where TEvent : IEvent
 {
-    public SubscriptionFrom5(Action<TEvent> handler)
-        : base(typeof(TEvent), (o) => handler((TEvent)o))
+    public SubscriptionFrom5(Action<TEvent?> handler)
+        : base(typeof(TEvent), (o) => handler((TEvent?)o))
     { }
 }
 

@@ -4,23 +4,23 @@ namespace NetLah.Extensions.EventAggregator.Test;
 
 internal static class EAHelper
 {
-    public static EventAggregatorOptions AddHandler1<TEvent>(this EventAggregatorOptions options, Func<TEvent, IServiceProvider, CancellationToken, Task> handler)
+    public static EventAggregatorOptions AddHandler1<TEvent>(this EventAggregatorOptions options, Func<TEvent?, IServiceProvider, CancellationToken, Task> handler)
         where TEvent : IEvent
         => options.AddSubscription(new SubscriptionFrom1Async<TEvent>(handler));
 
-    public static EventAggregatorOptions AddHandler2<TEvent>(this EventAggregatorOptions options, Action<TEvent, IServiceProvider> handler)
+    public static EventAggregatorOptions AddHandler2<TEvent>(this EventAggregatorOptions options, Action<TEvent?, IServiceProvider> handler)
         where TEvent : IEvent
          => options.AddSubscription(new SubscriptionFrom2<TEvent>(handler));
 
-    public static EventAggregatorOptions AddHandler3<TEvent>(this EventAggregatorOptions options, Func<TEvent, IServiceProvider, Task> handler)
+    public static EventAggregatorOptions AddHandler3<TEvent>(this EventAggregatorOptions options, Func<TEvent?, IServiceProvider, Task> handler)
         where TEvent : IEvent
            => options.AddSubscription(new SubscriptionFrom3Async<TEvent>(handler));
 
-    public static EventAggregatorOptions AddHandler4<TEvent>(this EventAggregatorOptions options, Func<TEvent, Task> handler)
+    public static EventAggregatorOptions AddHandler4<TEvent>(this EventAggregatorOptions options, Func<TEvent?, Task> handler)
         where TEvent : IEvent
            => options.AddSubscription(new SubscriptionFrom4Async<TEvent>(handler));
 
-    public static EventAggregatorOptions AddHandler5<TEvent>(this EventAggregatorOptions options, Action<TEvent> handler)
+    public static EventAggregatorOptions AddHandler5<TEvent>(this EventAggregatorOptions options, Action<TEvent?> handler)
         where TEvent : IEvent
           => options.AddSubscription(new SubscriptionFrom5<TEvent>(handler));
 

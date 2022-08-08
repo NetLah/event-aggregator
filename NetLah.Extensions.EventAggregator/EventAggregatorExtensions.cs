@@ -13,11 +13,11 @@ public static class EventAggregatorExtensions
         return services;
     }
 
-    public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services, Func<TEvent, IServiceProvider, CancellationToken, Task> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
+    public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services, Func<TEvent?, IServiceProvider, CancellationToken, Task> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
         where TEvent : IEvent
         => services.Subscribe(new SubscriptionFrom1Async<TEvent>(handler), lifetime);
 
-    public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services, Func<TEvent, IServiceProvider, Task> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
+    public static IServiceCollection SubscribeAsync<TEvent>(this IServiceCollection services, Func<TEvent?, IServiceProvider, Task> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
         where TEvent : IEvent
         => services.Subscribe(new SubscriptionFrom3Async<TEvent>(handler), lifetime);
 
@@ -26,7 +26,7 @@ public static class EventAggregatorExtensions
         where TAsyncSubscriber : IAsyncSubscriber<TEvent>
         => services.Subscribe(new SubscriptionAsyncSubscriber<TEvent, TAsyncSubscriber>(), lifetime);
 
-    public static IServiceCollection Subscribe<TEvent>(this IServiceCollection services, Action<TEvent, IServiceProvider> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
+    public static IServiceCollection Subscribe<TEvent>(this IServiceCollection services, Action<TEvent?, IServiceProvider> handler, SubscriberLifetime lifetime = SubscriberLifetime.Scoped)
         where TEvent : IEvent
         => services.Subscribe(new SubscriptionFrom2<TEvent>(handler), lifetime);
 
@@ -38,5 +38,5 @@ public static class EventAggregatorExtensions
     private static IServiceCollection Subscribe(this IServiceCollection services, Subscription subscription, SubscriberLifetime lifetime)
         => services.Configure<EventAggregatorOptions>(NamedScopedOrSingleton(lifetime), options => options.Subscriptions.Add(subscription));
 
-    private static string NamedScopedOrSingleton(SubscriberLifetime lifetime) => lifetime == SubscriberLifetime.Scoped ? Options.Options.DefaultName : null;
+    private static string? NamedScopedOrSingleton(SubscriberLifetime lifetime) => lifetime == SubscriberLifetime.Scoped ? Options.Options.DefaultName : null;
 }

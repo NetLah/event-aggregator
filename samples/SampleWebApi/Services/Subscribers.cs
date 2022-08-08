@@ -12,9 +12,9 @@ public class Event1Subscriber : IAsyncSubscriber<Event1>
         _logger = logger;
     }
 
-    public Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Event1? @event, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Handled[Event1Subscriber] {event1}", @event.Message);
+        _logger.LogInformation("Handled[Event1Subscriber] {event1}", @event?.Message);
         return Task.CompletedTask;
     }
 }
@@ -28,9 +28,9 @@ public class RootEvent1Subscriber : IAsyncSubscriber<Event1>
         _logger = logger;
     }
 
-    public Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Event1? @event, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Handled[RootEvent1Subscriber] {event1}", @event.Message);
+        _logger.LogInformation("Handled[RootEvent1Subscriber] {event1}", @event?.Message);
         return Task.CompletedTask;
     }
 }
@@ -44,9 +44,9 @@ public class Event2Subscriber : ISubscriber<BaseEvent2>
         _logger = logger;
     }
 
-    public void Handle(BaseEvent2 @event)
+    public void Handle(BaseEvent2? @event)
     {
-        _logger.LogInformation("Handled[Event2Subscriber] {event2}", @event.Message2);
+        _logger.LogInformation("Handled[Event2Subscriber] {event2}", @event?.Message2);
     }
 }
 
@@ -59,9 +59,9 @@ public class RootEvent2Subscriber : IAsyncSubscriber<Event2>
         _logger = logger;
     }
 
-    public Task HandleAsync(Event2 @event, CancellationToken cancellationToken = default)
+    public Task HandleAsync(Event2? @event, CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Handled[RootEvent2Subscriber] {event2}", @event.Message2);
+        _logger.LogInformation("Handled[RootEvent2Subscriber] {event2}", @event?.Message2);
         return Task.CompletedTask;
     }
 }
@@ -75,9 +75,9 @@ public class Event3Subscriber : ISubscriber<IEvent3>
         _logger = logger;
     }
 
-    public void Handle(IEvent3 @event)
+    public void Handle(IEvent3? @event)
     {
-        _logger.LogInformation("Handled[Event3Subscriber]/{type} {event3}", @event.GetType().Name, @event.Message3);
+        _logger.LogInformation("Handled[Event3Subscriber]/{type} {event3}", @event?.GetType().Name, @event?.Message3);
     }
 }
 
@@ -90,8 +90,8 @@ public class RootEvent3Subscriber
         _logger = logger;
     }
 
-    public void Handle3(IEvent3 @event)
+    public void Handle3(IEvent3? @event)
     {
-        _logger.LogInformation("Handled[RootEvent3Subscriber]/{type} {event3}", @event.GetType().Name, @event.Message3);
+        _logger.LogInformation("Handled[RootEvent3Subscriber]/{type} {event3}", @event?.GetType().Name, @event?.Message3);
     }
 }

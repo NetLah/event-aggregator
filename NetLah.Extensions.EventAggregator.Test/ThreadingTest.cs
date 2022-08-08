@@ -13,8 +13,6 @@ public class ThreadingTest
     private const int TestDuration = 20_000;
 #endif
 
-    private EACore _service;
-    private CancellationTokenSource _cts;
     private long publish0;
     private long publish1;
     private long publish2;
@@ -33,13 +31,13 @@ public class ThreadingTest
         var options = new EventAggregatorOptions();
         Subscribe(options);
         var sp = Mock.Of<IServiceProvider>();
-        _service = new EACore(sp, options);
-        _cts = new CancellationTokenSource(TestDuration);
+        IPublisher service = new EACore(sp, options);
+        var cts = new CancellationTokenSource(TestDuration);
 
         var tasks = new List<Task>();
         for (int i = 0; i < TaskCount; i++)
         {
-            tasks.Add(Task.Run(() => Runner(TotalIterations)));
+            tasks.Add(Task.Run(() => Runner(TotalIterations, service, cts)));
         }
 
         await Task.WhenAll(tasks);
@@ -66,7 +64,7 @@ public class ThreadingTest
         options.AddHandler4<Event4>((e) => { NotNull(e); Interlocked.Increment(ref handled4); return Task.CompletedTask; });
         options.AddHandler5<Event5>((e) => { NotNull(e); Interlocked.Increment(ref handled5); });
 
-        static void NotNull(IEvent e)
+        static void NotNull(IEvent? e)
         {
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
             if (e == null) throw new ArgumentNullException(nameof(e));
@@ -74,17 +72,17 @@ public class ThreadingTest
         }
     }
 
-    private async Task Runner(long total)
+    private async Task Runner(long total, IPublisher service, CancellationTokenSource cts)
     {
         var rand = new Random();
-        var ct = _cts.Token;
+        var ct = cts.Token;
 
         for (long i = 0; i < total && !ct.IsCancellationRequested; i++)
         {
             var select = rand.Next(1000) % 7;
 
 #pragma warning disable IDE0059 // Unnecessary assignment of a value
-            IEvent e = null;
+            IEvent? e = null;
 #pragma warning restore IDE0059 // Unnecessary assignment of a value
 
             switch (select)
@@ -131,7 +129,7 @@ public class ThreadingTest
 #pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
 #pragma warning disable CA2208 // Instantiate argument exceptions correctly
 #pragma warning disable S2583 // Conditionally executed code should be reachable
-            await _service.PublishAsync(e ?? throw new ArgumentNullException("e"));
+            await service.PublishAsync(e ?? throw new ArgumentNullException("e"));
 #pragma warning restore S2583 // Conditionally executed code should be reachable
 #pragma warning restore CA2208 // Instantiate argument exceptions correctly
 #pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 

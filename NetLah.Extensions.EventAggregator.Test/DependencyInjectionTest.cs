@@ -74,7 +74,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler1Async<TestEvent1>>();
+        var handlerMock = new Mock<Handler1Async<TestEvent1?>>();
         _ = services.SubscribeAsync<TestEvent1>(handlerMock.Object.Invoke);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -92,7 +92,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler3Async<TestEvent1>>();
+        var handlerMock = new Mock<Handler3Async<TestEvent1?>>();
         _ = services.SubscribeAsync<TestEvent1>(handlerMock.Object.Invoke);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -129,7 +129,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler2<TestEvent1>>();
+        var handlerMock = new Mock<Handler2<TestEvent1?>>();
         _ = services.Subscribe<TestEvent1>(handlerMock.Object.Invoke);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -166,7 +166,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler1Async<TestEvent1>>();
+        var handlerMock = new Mock<Handler1Async<TestEvent1?>>();
         _ = services.SubscribeAsync<TestEvent1>(handlerMock.Object.Invoke, SubscriberLifetime.Singleton);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -184,7 +184,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler3Async<TestEvent1>>();
+        var handlerMock = new Mock<Handler3Async<TestEvent1?>>();
         _ = services.SubscribeAsync<TestEvent1>(handlerMock.Object.Invoke, SubscriberLifetime.Singleton);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -221,7 +221,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler2<TestEvent1>>();
+        var handlerMock = new Mock<Handler2<TestEvent1?>>();
         _ = services.Subscribe<TestEvent1>(handlerMock.Object.Invoke, SubscriberLifetime.Singleton);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -258,7 +258,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler1Async<TestEvent1>>();
+        var handlerMock = new Mock<Handler1Async<TestEvent1?>>();
         _ = services.SubscribeAsync<TestEvent1>(handlerMock.Object.Invoke, SubscriberLifetime.Singleton);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -276,7 +276,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler3Async<TestEvent1>>();
+        var handlerMock = new Mock<Handler3Async<TestEvent1?>>();
         _ = services.SubscribeAsync<TestEvent1>(handlerMock.Object.Invoke, SubscriberLifetime.Singleton);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -312,7 +312,7 @@ public class DependencyInjectionTest
     {
         var services = GetServices();
 
-        var handlerMock = new Mock<Handler2<TestEvent1>>();
+        var handlerMock = new Mock<Handler2<TestEvent1?>>();
         _ = services.Subscribe<TestEvent1>(handlerMock.Object.Invoke, SubscriberLifetime.Singleton);
 
         await using var serviceProvider = services.BuildServiceProvider(validateScopes: true);
@@ -394,16 +394,16 @@ public class DependencyInjectionTest
 
     internal abstract class TestAsyncSubscriber : IAsyncSubscriber<TestEvent1>
     {
-        public abstract Task HandleAsync(TestEvent1 @event, CancellationToken cancellationToken = default);
+        public abstract Task HandleAsync(TestEvent1? @event, CancellationToken cancellationToken = default);
     }
 
     internal abstract class Test2AsyncSubscriber : IAsyncSubscriber<TestEvent1>
     {
-        public abstract Task HandleAsync(TestEvent1 @event, CancellationToken cancellationToken = default);
+        public abstract Task HandleAsync(TestEvent1? @event, CancellationToken cancellationToken = default);
     }
 
     internal abstract class TestSubscriber : ISubscriber<TestEvent1>
     {
-        public abstract void Handle(TestEvent1 @event);
+        public abstract void Handle(TestEvent1? @event);
     }
 }

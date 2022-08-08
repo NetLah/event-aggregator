@@ -30,10 +30,10 @@ internal class Event5 : IEvent
 
 internal abstract class BaseAsyncSubscriber : IAsyncSubscriber<Event1>
 {
-    public abstract Task HandleAsync(Event1 @event, CancellationToken cancellationToken = default);
+    public abstract Task HandleAsync(Event1? @event, CancellationToken cancellationToken = default);
 }
 
 internal abstract class BaseSubscriber : ISubscriber<Event1>
 {
-    public abstract void Handle(Event1 @event);
+    public abstract void Handle(Event1? @event);
 }
