@@ -4,7 +4,7 @@ internal abstract class EventAggregatorCore : IEventAggregator
 {
     private readonly IServiceProvider _serviceProvider;
     private readonly Func<EventAggregatorOptions> _optionsFactory;
-    private EventAggregatorOptions _options;
+    private EventAggregatorOptions? _options;
 
     protected EventAggregatorCore(IServiceProvider serviceProvider, Func<EventAggregatorOptions> optionsFactory)
     {
@@ -20,9 +20,14 @@ internal abstract class EventAggregatorCore : IEventAggregator
             .Where(s => s.Type.IsAssignableFrom(type))
             .ToArray();
 
+#pragma warning disable S4457 // Parameter validation in "async"/"await" methods should be wrapped
     public async Task PublishAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default) where TEvent : IEvent
+#pragma warning restore S4457 // Parameter validation in "async"/"await" methods should be wrapped
     {
-        var type = @event?.GetType() ?? typeof(TEvent);
+        if (@event == null)
+            throw new ArgumentNullException(nameof(@event));
+
+        var type = @event.GetType();
 
 #if !NETSTANDARD2_0
         var subscriptions = OptionsValue.Handlers.GetOrAdd<Func<Subscription[]>>(
