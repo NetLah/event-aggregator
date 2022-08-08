@@ -19,10 +19,10 @@
 
     <!--the netlah platform-->
     <PackageReference Update="NetLah.Abstractions" Version="[0.2.0,1.0)" />
-    <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.2.0,1.0)" />
-    <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.2.0,1.0)" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.2.1,1.0)" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog.AspNetCore" Version="[0.2.1,1.0)" />
+    <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.2.*-*,1.0)" />
+    <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.2.*-*,1.0)" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.2.*-*,1.0)" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog.AspNetCore" Version="[0.2.*-*,1.0)" />
     <PackageReference Update="Testing.Dynamic.Json" Version="1.*-*" />
 
     <!--tests-->
@@ -38,9 +38,9 @@
 
     <!--serilog and nlog-->
     <PackageReference Update="Serilog" Version="[2.11.*,3)" />
-    <PackageReference Update="Serilog.AspNetCore" Version="[5.*-*,6)" />
+    <PackageReference Update="Serilog.AspNetCore" Version="[6.*-*,7)" />
     <PackageReference Update="Serilog.Enrichers.Thread" Version="[3.*-*,4)" />
-    <PackageReference Update="Serilog.Extensions.Hosting" Version="[4.*-*,5)" />
+    <PackageReference Update="Serilog.Extensions.Hosting" Version="[5.*-*,6)" />
     <PackageReference Update="Serilog.Extensions.Logging" Version="[3.*-*,4)" />
     <PackageReference Update="Serilog.Formatting.Compact" Version="[1.*-*,2)" />
     <PackageReference Update="Serilog.Settings.Configuration" Version="[3.*-*,4)" />
