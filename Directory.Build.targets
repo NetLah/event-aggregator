@@ -19,7 +19,7 @@
 
     <!--the helpers -->
     <PackageReference Update="NetLah.Abstractions" Version="[0.*-*,1)" />
-    <PackageReference Update="NetLah.AssemblyInfo.Build.Targets" Version="[0.*-*,1)" PrivateAssets="All" />
+    <PackageReference Include="NetLah.AssemblyInfo.Build.Targets" Version="[0.*-*,1)" PrivateAssets="All" />
     <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.*,1)" />
     <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.*,1)" />
     <PackageReference Update="NetLah.Extensions.HttpOverrides" Version="[0.*,1)" />

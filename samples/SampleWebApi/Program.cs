@@ -1,4 +1,5 @@
-﻿using NetLah.Extensions.Logging;
+﻿using NetLah.Diagnostics;
+using NetLah.Extensions.Logging;
 
 namespace SampleWebApi;
 
@@ -27,9 +28,13 @@ public class Program
 
     public static IHostBuilder CreateHostBuilder(string[] args) =>
         Host.CreateDefaultBuilder(args)
-            .UseSerilog2(logger => logger.LogInformation("Application initializing..."))
+            .UseSerilog2(logger => LogAppEvent(logger, "Application initializing...", ApplicationInfo.SafeInstance))
             .ConfigureWebHostDefaults(webBuilder =>
             {
                 webBuilder.UseStartup<Startup>();
             });
+
+    private static void LogAppEvent(ILogger logger, string appEvent, IAssemblyInfo? appInfo)
+        => logger?.LogInformation("{ApplicationEvent} App:{title}; Version:{version} BuildTime:{buildTime}; Framework:{framework}",
+            appEvent, appInfo?.Title, appInfo?.InformationalVersion, appInfo?.BuildTimestampLocal, appInfo?.FrameworkName);
 }
