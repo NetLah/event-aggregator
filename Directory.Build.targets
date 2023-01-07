@@ -8,7 +8,8 @@
     <FrameworkVersion Condition="'$(TargetFramework)' == 'net7.0'">7.*</FrameworkVersion>
     <SystemTextJsonVersion Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0' And '$(TargetFramework)' != 'net6.0-windows'">5.*</SystemTextJsonVersion>
     <SystemTextJsonVersion Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0' Or '$(TargetFramework)' == 'net6.0-windows'">$(FrameworkVersion)</SystemTextJsonVersion>
-    <SwashbuckleVersion>6.*</SwashbuckleVersion>
+    <SwashbuckleVersion Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0'">5.*</SwashbuckleVersion>
+    <SwashbuckleVersion Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'">6.*</SwashbuckleVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -102,6 +103,7 @@
     <PackageReference Update="Microsoft.Extensions.Caching.Abstractions" Version="$(FrameworkVersion)" />
     <PackageReference Update="Microsoft.Extensions.Caching.Memory" Version="$(FrameworkVersion)" />
     <PackageReference Update="Microsoft.Extensions.Caching.StackExchangeRedis" Version="$(FrameworkVersion)" />
+    <PackageReference Update="Microsoft.Extensions.Configuration" Version="$(FrameworkVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="$(FrameworkVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="$(FrameworkVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.CommandLine" Version="$(FrameworkVersion)" />

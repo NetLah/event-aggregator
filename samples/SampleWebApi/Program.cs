@@ -12,6 +12,7 @@ public class Program
         AppLog.InitLogger();
         try
         {
+            ApplicationInfo.TryInitialize(typeof(Program).Assembly);
             AppLog.Logger.LogInformation("Application configure...");
 
             CreateHostBuilder(args).Build().Run();

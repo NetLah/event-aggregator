@@ -8,7 +8,8 @@
     <FrameworkBaselineVersion Condition="'$(TargetFramework)' == 'net7.0'">7.0.0</FrameworkBaselineVersion>
     <SystemTextJsonVersion Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0' And '$(TargetFramework)' != 'net6.0-windows'">5.0.0</SystemTextJsonVersion>
     <SystemTextJsonVersion Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0' Or '$(TargetFramework)' == 'net6.0-windows'">$(FrameworkBaselineVersion)</SystemTextJsonVersion>
-    <SwashbuckleVersion>6.0.0</SwashbuckleVersion>
+    <SwashbuckleVersion Condition="'$(TargetFramework)' != 'net6.0' And '$(TargetFramework)' != 'net7.0'">5.0.0</SwashbuckleVersion>
+    <SwashbuckleVersion Condition="'$(TargetFramework)' == 'net6.0' Or '$(TargetFramework)' == 'net7.0'">6.0.0</SwashbuckleVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,11 +24,11 @@
     <PackageReference Update="NetLah.Extensions.CommandLineUtils" Version="0.1.0-a1.2" />
     <PackageReference Update="NetLah.Extensions.Configuration" Version="[0.2.2,1)" />
     <PackageReference Update="NetLah.Extensions.EventAggregator" Version="[0.2.0,1)" />
-    <PackageReference Update="NetLah.Extensions.HttpOverrides" Version="[0.2.1,1)" />
-    <PackageReference Update="NetLah.Extensions.Logging.Reference" Version="[0.2.3,1)" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.2.3,1)" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog.AspNetCore" Version="[0.2.3,1)" />
-    <PackageReference Update="NetLah.Extensions.SpaServices.Hosting" Version="[0.1.0-rc2,1)" />
+    <PackageReference Update="NetLah.Extensions.HttpOverrides" Version="[0.2.2,1)" />
+    <PackageReference Update="NetLah.Extensions.Logging.Reference" Version="[0.2.4,1)" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="[0.2.4,1)" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog.AspNetCore" Version="[0.2.4,1)" />
+    <PackageReference Update="NetLah.Extensions.SpaServices.Hosting" Version="[0.1.0,1)" />
     <PackageReference Update="Testing.Dynamic.Json" Version="1.*-*" />
 
     <!--tests-->
@@ -42,7 +43,7 @@
     <PackageReference Update="xunit.runner.visualstudio" Version="2.*" PrivateAssets="All" />
 
     <!--serilog-->
-    <PackageReference Update="Serilog" Version="[2.11.0,3)" />
+    <PackageReference Update="Serilog" Version="[2.10.0,3)" />
     <PackageReference Update="Serilog.AspNetCore" Version="[6.0.0,7)" />
     <PackageReference Update="Serilog.Enrichers.Thread" Version="[3.1.0,4)" />
     <PackageReference Update="Serilog.Extensions.Hosting" Version="[5.0.0,6)" />
@@ -99,6 +100,7 @@
     <PackageReference Update="Microsoft.Extensions.Caching.Abstractions" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.Extensions.Caching.Memory" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.Extensions.Caching.StackExchangeRedis" Version="$(FrameworkBaselineVersion)" />
+    <PackageReference Update="Microsoft.Extensions.Configuration" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Abstractions" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.Binder" Version="$(FrameworkBaselineVersion)" />
     <PackageReference Update="Microsoft.Extensions.Configuration.CommandLine" Version="$(FrameworkBaselineVersion)" />
