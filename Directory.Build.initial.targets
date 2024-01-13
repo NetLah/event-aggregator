@@ -1,0 +1,7 @@
+<Project>
+
+  <PropertyGroup Condition="'$(FrameworkVersion)' == ''">
+    <FrameworkVersion Condition="'$(NET_5_0_LESS)' == true">7.*</FrameworkVersion>
+  </PropertyGroup>
+
+</Project>

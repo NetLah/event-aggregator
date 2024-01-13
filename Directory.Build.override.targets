@@ -1,0 +1,7 @@
+<Project>
+
+  <ItemGroup Condition="'$(NET_7_0_LESS)' == true">
+    <PackageReference Update="Serilog.AspNetCore" Version="7.*" />
+  </ItemGroup>
+
+</Project>

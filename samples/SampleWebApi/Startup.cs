@@ -1,6 +1,9 @@
 ﻿using Microsoft.OpenApi.Models;
+using NetLah.Diagnostics;
+using NetLah.Extensions.Logging;
 using SampleWebApi.Models;
 using SampleWebApi.Services;
+using Serilog;
 
 namespace SampleWebApi;
 
@@ -16,6 +19,16 @@ public class Startup
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+        var logger = AppLog.Logger;
+
+        var asmSerilogAspNetCore = new AssemblyInfo(typeof(SerilogApplicationBuilderExtensions).Assembly);
+        logger.LogInformation("AssemblyTitle:{title}; Version:{version} Framework:{framework}",
+            asmSerilogAspNetCore.Title, asmSerilogAspNetCore.InformationalVersion, asmSerilogAspNetCore.FrameworkName);
+
+        var asmOptions = new AssemblyInfo(typeof(OptionsServiceCollectionExtensions).Assembly);
+        logger.LogInformation("AssemblyTitle:{title}; Version:{version} Framework:{framework}",
+            asmOptions.Title, asmOptions.InformationalVersion, asmOptions.FrameworkName);
+
         services.AddControllers();
         services.AddSwaggerGen(c =>
         {
@@ -60,6 +73,8 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SampleWebApi v1"));
         }
+
+        app.UseSerilogRequestLoggingLevel();
 
         app.UseHttpsRedirection();
 
