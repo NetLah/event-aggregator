@@ -1,11 +1,11 @@
 <Project>
 
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Common.props', '$(MSBuildThisFileDirectory)'))" />
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Common.props', '$(MSBuildThisFileDirectory)'))" Condition="'$(ImportedCommonProps)' == ''" />
 
   <Import Project="$(MSBuildThisFileDirectory)Directory.Build.initial.targets" Condition="Exists('$(MSBuildThisFileDirectory)Directory.Build.initial.targets')" />
 
   <PropertyGroup Condition="'$(LatestDevFrameworkVersion)' == ''">
-    <LatestDevFrameworkVersion>9.*-*</LatestDevFrameworkVersion>
+    <LatestDevFrameworkVersion>9.0.0-preview.1.*</LatestDevFrameworkVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(FrameworkVersion)' == ''">
@@ -14,6 +14,7 @@
     <FrameworkVersion Condition="'$(NET_6_0)' == true">6.0.0</FrameworkVersion>
     <FrameworkVersion Condition="'$(NET_7_0)' == true">7.0.0</FrameworkVersion>
     <FrameworkVersion Condition="'$(NET_8_0)' == true">8.0.0</FrameworkVersion>
+    <FrameworkVersion Condition="'$(NET_9_0)' == true">9.0.0-preview.1.*</FrameworkVersion>
     <FrameworkVersion Condition="'$(FrameworkVersion)' == ''">$(LatestDevFrameworkVersion)</FrameworkVersion>
   </PropertyGroup>
 
@@ -36,12 +37,12 @@
     <!--the helpers -->
     <PackageReference Update="NetLah.Abstractions" Version="1.0.0" />
     <PackageReference Update="NetLah.Extensions.CommandLineUtils" Version="0.1.0-a1.2" />
-    <PackageReference Update="NetLah.Extensions.Configuration" Version="1.0.0-rc1" />
-    <PackageReference Update="NetLah.Extensions.EventAggregator" Version="0.2.1" />
+    <PackageReference Update="NetLah.Extensions.Configuration" Version="1.0.0-rc2" />
+    <PackageReference Update="NetLah.Extensions.EventAggregator" Version="1.0.0-rc1" />
     <PackageReference Update="NetLah.Extensions.HttpOverrides" Version="1.0.0-rc1" />
-    <PackageReference Update="NetLah.Extensions.Logging.Reference" Version="1.0.0-rc1" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="1.0.0-rc1" />
-    <PackageReference Update="NetLah.Extensions.Logging.Serilog.AspNetCore" Version="1.0.0-rc1" />
+    <PackageReference Update="NetLah.Extensions.Logging.Reference" Version="1.0.0-rc2" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog" Version="1.0.0-rc2" />
+    <PackageReference Update="NetLah.Extensions.Logging.Serilog.AspNetCore" Version="1.0.0-rc2" />
     <PackageReference Update="NetLah.Extensions.SpaServices.Hosting" Version="1.0.0-rc1" />
     <PackageReference Update="Testing.Dynamic.Json" Version="1.0.0-rc3" />
 
@@ -95,7 +96,7 @@
     <!--microsoft identity-->
     <PackageReference Update="Microsoft.Graph.Core" Version="3.0.0" />
     <PackageReference Update="Microsoft.Identity.Client.Extensions.Msal" Version="2.31.0" />
-    <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.0.3" />
+    <PackageReference Update="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.1.2" />
 
     <!--open api-->
     <PackageReference Update="Microsoft.OpenApi" Version="1.0.0" />
